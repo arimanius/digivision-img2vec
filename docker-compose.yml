@@ -1,0 +1,19 @@
+version: '3.5'
+
+services:
+  img2vec:
+    container_name: digivision-img2vec
+    build:
+      context: .
+      args:
+        VERSION: 0.1.0
+    ports:
+      - "50051:50051"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: [ gpu ]
+    volumes:
+      - ./config.yml:/etc/img2vec/config.yml:ro
+      - ./.models/clip:/root/.cache/clip

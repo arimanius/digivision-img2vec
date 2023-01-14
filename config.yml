@@ -1,0 +1,2 @@
+vectorizer:
+  model: ViT-L/14@336px

@@ -1,0 +1,7 @@
+grpcio-tools==1.46.5
+pillow
+PyYAML
+numpy
+torch
+clip @ git+https://github.com/openai/CLIP.git#egg=clip
+transformers
