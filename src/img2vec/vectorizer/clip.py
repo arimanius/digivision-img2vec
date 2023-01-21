@@ -11,12 +11,12 @@ logger = getLogger('clip')
 class ClipVectorizer:
 
     @staticmethod
-    def load(model: str) -> None:
-        device = "cuda" if torch.cuda.is_available() else "cpu"
+    def load(model: str, cuda: bool) -> None:
+        device = "cuda" if cuda and torch.cuda.is_available() else "cpu"
         clip.load(model, device=device)
 
-    def __init__(self, model: str):
-        self.__device = "cuda" if torch.cuda.is_available() else "cpu"
+    def __init__(self, model: str, cuda: bool):
+        self.__device = "cuda" if cuda and torch.cuda.is_available() else "cpu"
         logger.info(f'Using device: {self.__device}')
         self.__model, self.__preprocess = clip.load(model, device=self.__device)
 

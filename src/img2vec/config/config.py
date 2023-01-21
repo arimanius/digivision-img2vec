@@ -26,6 +26,7 @@ class GrpcServerConfig(BaseConfig):
 @dataclass
 class VectorizerConfig(BaseConfig):
     model: str = 'ViT-L/14@336px'
+    cuda: bool = True
 
 
 @dataclass

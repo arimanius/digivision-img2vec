@@ -34,10 +34,10 @@ def serve(config: Config):
     killer = GracefulKiller()
 
     logger.info(f'loading the model: {config.vectorizer.model}')
-    ClipVectorizer.load(config.vectorizer.model)
+    ClipVectorizer.load(config.vectorizer.model, config.vectorizer.cuda)
     logger.info('model loaded')
 
-    vectorizer = ClipVectorizer(config.vectorizer.model)
+    vectorizer = ClipVectorizer(config.vectorizer.model, config.vectorizer.cuda)
 
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=config.grpc.num_workers),
                          options=[
