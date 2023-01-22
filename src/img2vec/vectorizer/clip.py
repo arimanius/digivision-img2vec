@@ -24,9 +24,9 @@ class ClipVectorizer:
         logger.info(f'Using device: {self.__device}')
         model, preprocess = clip.load(model, device=self.__device)
         model: CLIP = model
-        self.__model = model.visual
-        self.__dtype = model.dtype
         model.cpu()
+        self.__model = model.visual.cuda()
+        self.__dtype = model.dtype
         self.__preprocess: transforms.Compose = preprocess
 
     @torch.cuda.amp.autocast()
