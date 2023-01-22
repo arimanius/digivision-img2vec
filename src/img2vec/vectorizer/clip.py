@@ -1,11 +1,7 @@
-import copy
-
 import clip
 import numpy as np
 import torch
 from PIL import Image
-from clip.model import CLIP
-from torchvision import transforms
 
 from img2vec.util import getLogger
 
@@ -22,17 +18,12 @@ class ClipVectorizer:
     def __init__(self, model: str, cuda: bool):
         self.__device = "cuda" if cuda and torch.cuda.is_available() else "cpu"
         logger.info(f'Using device: {self.__device}')
-        model, preprocess = clip.load(model, device=self.__device)
-        model: CLIP = model
-        model.cpu()
-        self.__model = model.visual.cuda()
-        self.__dtype = model.dtype
-        self.__preprocess: transforms.Compose = preprocess
+        self.__model, self.__preprocess = clip.load(model, device=self.__device)
 
     @torch.cuda.amp.autocast()
     @torch.no_grad()
     @torch.inference_mode()
     def vectorize(self, image: Image.Image) -> np.ndarray:
-        image: torch.Tensor = self.__preprocess(image).unsqueeze(0).to(self.__device)
-        vector = self.__model(image.type(self.__dtype))
+        image = self.__preprocess(image).unsqueeze(0).to(self.__device)
+        vector = self.__model.encode_image(image)
         return vector.cpu().numpy().flatten()
