@@ -3,6 +3,7 @@ version: '3.5'
 services:
   img2vec:
     container_name: digivision-img2vec
+    image: ghcr.io/arimanius/digivision-img2vec:latest
     build:
       context: .
       args:
